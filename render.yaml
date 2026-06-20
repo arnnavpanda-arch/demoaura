@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: hyperlocal-delivery-network
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: waitress-serve --port=10000 server:app
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://arnnav:cutiki@cluster0.t83s0ym.mongodb.net/?appName=Cluster0

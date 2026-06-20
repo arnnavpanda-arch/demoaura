@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Dispatch | Hyperlocal Delivery Agency Network</title>
+  <meta name="description" content="Connect local shops to consumers, manage partner listings, and monitor courier delivery dispatches.">
+  <link rel="stylesheet" href="style.css?v=20">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="light-theme">
+
+  <!-- --- TOAST NOTIFICATION CONTAINER --- -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- --- BACKDROP OVERLAY --- -->
+  <div id="app-backdrop" class="backdrop"></div>
+
+  <!-- --- GLOBAL NAVIGATION BAR --- -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <!-- Brand Logo -->
+      <div class="logo-section" id="nav-logo">
+        <div class="logo-icon" style="background: linear-gradient(135deg, var(--accent-color), #06b6d4);">
+          <i data-lucide="truck"></i>
+        </div>
+        <span class="logo-text">AURA <span class="gradient-text" style="background: linear-gradient(135deg, var(--accent-color), #06b6d4); -webkit-background-clip: text;">DISPATCH</span></span>
+      </div>
+
+      <!-- Portal Selector Navigation Tabs -->
+      <div class="portal-nav-tabs">
+        <button class="portal-tab-btn active" id="tab-customer" data-portal="customer">
+          <i data-lucide="shopping-bag"></i><span>Customer Storefront</span>
+        </button>
+        <button class="portal-tab-btn" id="tab-shop" data-portal="shop">
+          <i data-lucide="store"></i><span>Shop Partner Login</span>
+        </button>
+        <button class="portal-tab-btn" id="tab-agency" data-portal="agency">
+          <i data-lucide="shield-alert"></i><span>Agency Control Hub</span>
+        </button>
+      </div>
+
+      <!-- Actions -->
+      <div class="nav-actions">
+        <!-- Auth Button --></div>
+    </div>
+  </nav>
+
+  <!-- --- MAIN VIEW --- -->
+  <main class="container">
+    
+    <!-- ==================== PORTAL A: CUSTOMER STOREFRONT ==================== -->
+    <div id="portal-customer-view" class="app-view active">
+      
+      <!-- Premium E-commerce Animated Background (For Glass Mode) -->
+      <div id="customer-premium-bg">
+        <div class="glass-bg-overlay"></div>
+        <div class="bokeh b-1"></div>
+        <div class="bokeh b-2"></div>
+        <div class="bokeh b-3"></div>
+        <div class="particle cp-1"></div>
+        <div class="particle cp-2"></div>
+        <div class="particle cp-3"></div>
+        <div class="particle cp-4"></div>
+        <div class="particle cp-5"></div>
+        <div class="floating-bag-container">
+          <img src="floating_shopping_assets.png" alt="Shopping Assets" class="floating-assets-img">
+        </div>
+      </div>
+
+      <!-- DASHBOARD Navigation is now in the Left Sidebar -->
+
+      <!-- Subview A0: Customer Auth View -->
+      <div id="cust-auth-view" class="sub-view active" style="max-width: 480px; margin: 40px auto; text-align: center;">
+        <div class="glass-card" style="padding: 40px;">
+          <img src="aura_logo.png" alt="AURA DISPATCH COMPANY" style="width: 150px; height: 150px; margin-bottom: 20px; border-radius: 50%; box-shadow: 0 10px 30px rgba(0, 184, 217, 0.3);">
+          <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 10px;">WELCOME TO AURA Dispatch</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 30px;">Please identify yourself to access the local storefront.</p>
+          
+          <div id="auth-options">
+            <button class="next-btn" id="show-register-btn" style="width: 100%; margin-bottom: 16px; padding: 14px;">Register New Account</button>
+            <button class="back-btn" id="show-login-btn" style="width: 100%; padding: 14px; justify-content: center;">Already Registered</button>
+          </div>
+
+          <!-- Registration Form -->
+          <form id="cust-register-form" style="display: none; flex-direction: column; gap: 16px; text-align: left;">
+            <div class="form-group"><label>Full Name</label><input type="text" id="reg-name" required></div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="reg-phone" required></div>
+            <div class="form-group"><label>Address / House No.</label><input type="text" id="reg-address" required></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group"><label>City</label><input type="text" id="reg-city" required></div>
+              <div class="form-group"><label>State</label><input type="text" id="reg-state" required></div>
+            </div>
+            <div class="form-group"><label>PIN Code</label><input type="text" id="reg-pin" required></div>
+            <button type="submit" class="next-btn" style="width: 100%; padding: 14px; margin-top: 10px;">Submit Registration</button>
+            <button type="button" class="back-btn" onclick="document.getElementById('cust-register-form').style.display='none'; document.getElementById('auth-options').style.display='block';" style="width: 100%; padding: 10px; justify-content: center; margin-top: 5px;">Back</button>
+          </form>
+
+          <!-- Login Form -->
+          <form id="cust-login-form" style="display: none; flex-direction: column; gap: 16px; text-align: left;">
+            <div class="form-group">
+              <label>Registered Phone Number</label>
+              <input type="tel" id="login-phone" required>
+            </div>
+            <button type="submit" class="next-btn" style="width: 100%; padding: 14px; margin-top: 10px;">Enter Storefront</button>
+            <button type="button" class="back-btn" onclick="document.getElementById('cust-login-form').style.display='none'; document.getElementById('auth-options').style.display='block';" style="width: 100%; padding: 10px; justify-content: center; margin-top: 5px;">Back</button>
+          </form>
+
+          <!-- Wait Message -->
+          <div id="auth-wait-msg" style="display: none; margin-top: 20px; padding: 20px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; color: var(--warning-color);">
+            <i data-lucide="clock" style="width: 32px; height: 32px; margin-bottom: 10px;"></i>
+            <h4 style="margin-bottom: 8px;">Pending Approval</h4>
+            <p id="wait-msg-text" style="font-size: 0.9rem; line-height: 1.5;"></p>
+            <button type="button" class="back-btn" onclick="document.getElementById('auth-wait-msg').style.display='none'; document.getElementById('auth-options').style.display='block';" style="width: 100%; padding: 10px; justify-content: center; margin-top: 15px;">Back</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subview A1: Shops Directory (New Customer Dashboard) -->
+      <div id="cust-shops-directory" class="sub-view">
+        
+        <div class="customer-dashboard-layout">
+          <!-- LEFT SIDEBAR -->
+          <aside class="dash-sidebar" style="display: flex; flex-direction: column; gap: 24px; padding-top: 12px;">
+
+
+
+            <!-- Theme Switcher -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding-left: 12px; margin-bottom: 4px;">Theme</div>
+              <div style="display: flex; gap: 4px; padding: 4px; background: var(--bg-tertiary); border-radius: 20px; border: 1px solid var(--border-color);">
+                <button class="theme-btn active" data-theme="light" onclick="setCustomerTheme('light')" style="flex: 1; padding: 6px; border-radius: 16px; border: none; background: var(--bg-secondary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--text-primary);"><i data-lucide="sun" style="width: 14px; height: 14px; margin-right: 4px; vertical-align: text-bottom;"></i>Light</button>
+                <button class="theme-btn" data-theme="dark" onclick="setCustomerTheme('dark')" style="flex: 1; padding: 6px; border-radius: 16px; border: none; background: transparent; cursor: pointer; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);"><i data-lucide="moon" style="width: 14px; height: 14px; margin-right: 4px; vertical-align: text-bottom;"></i>Dark</button>
+                <button class="theme-btn" data-theme="glass" onclick="setCustomerTheme('glass')" style="flex: 1; padding: 6px; border-radius: 16px; border: none; background: transparent; cursor: pointer; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);"><i data-lucide="layers" style="width: 14px; height: 14px; margin-right: 4px; vertical-align: text-bottom;"></i>Glass</button>
+              </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div class="dash-cat-item" onclick="openCustomerNotifications()" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--border-radius-md); font-weight: 500; cursor: pointer;">
+                <i data-lucide="bell" style="color: var(--text-secondary);"></i> Notifications
+              </div>
+
+              <div class="dash-cat-item active" id="dash-global-cart-btn" onclick="openCart()" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--border-radius-md); font-weight: 500; cursor: pointer; background: var(--accent-light); color: var(--accent-color);">
+                <i data-lucide="shopping-cart" style="color: var(--accent-color);"></i> Cart <span id="cart-count" style="margin-left: auto; font-weight: 700;">0</span>
+              </div>
+              <div class="dash-cat-item" id="dash-orders-btn" onclick="openCustomerOrders()" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--border-radius-md); font-weight: 500; cursor: pointer;">
+                <i data-lucide="package" style="color: var(--text-secondary);"></i> Your Orders
+              </div>
+              <div class="dash-cat-item" onclick="openCustomerProfile()" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--border-radius-md); font-weight: 500; cursor: pointer;">
+                <i data-lucide="user" style="color: var(--text-secondary);"></i> Profile
+              </div>
+            </div>
+          </aside>
+
+          <!-- MAIN CONTENT -->
+          <main class="dash-main-content">
+            
+            <!-- PREMIUM ANIMATED WELCOME BANNER -->
+            <div class="welcome-banner-premium">
+              <!-- Floating Background Elements -->
+              <div class="bg-blob blob-1"></div>
+              <div class="bg-blob blob-2"></div>
+              <div class="bg-particle p-1"></div>
+              <div class="bg-particle p-2"></div>
+              <div class="bg-particle p-3"></div>
+
+              <div class="welcome-content">
+                <div class="welcome-text-area">
+                  <h1 class="welcome-title">Welcome Back, <span id="dash-welcome-name">Guest</span> 👋</h1>
+                  <p class="welcome-subtitle">Your hyperlocal dashboard is ready. Discover top stores and track your orders in real-time.</p>
+                  <div class="welcome-actions">
+                    <button class="welcome-btn primary-btn" onclick="document.getElementById('shops-directory-grid').scrollIntoView({behavior: 'smooth'})">Explore Shops</button>
+                    <button class="welcome-btn secondary-btn" onclick="openCustomerOrders()">Track Orders</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Customer Offers Advertisement Banner (Top Middle) -->
+            <div id="customer-offers-banner-container" style="width: 100%; margin-bottom: 32px; display: flex; justify-content: center;"></div>
+
+            <!-- Aura Dispatch Logo -->
+            <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
+              <img src="aura_logo.png" alt="AURA Dispatch" style="width: 120px; height: 120px; border-radius: 50%; box-shadow: 0 8px 24px rgba(0, 184, 217, 0.3);">
+            </div>
+
+            <!-- Cartoon Girl Category Navigator -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 32px; position: relative;">
+              <h3 style="margin-bottom: 16px;">Shop by Categories</h3>
+              
+              <div style="position: relative; width: 250px; height: 250px; cursor: pointer; transition: transform 0.3s ease;" onclick="document.getElementById('category-selection-modal').classList.add('active')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="cartoon_girl_shopping.png" alt="Cartoon Girl Shopping" style="width: 100%; height: 100%; object-fit: contain;">
+                
+                <!-- Blinking Open Badge -->
+                <div class="blinking-open-badge" style="position: absolute; bottom: 20px; right: 10px; background: #f43f5e; color: white; padding: 6px 16px; border-radius: 20px; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.4); border: 2px solid white; transform: rotate(-10deg);">
+                  OPEN <i data-lucide="sparkles" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle;"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shops Grid (Populated via JS) -->
+            <div class="products-grid" id="shops-directory-grid" style="margin-top: 32px;">
+              <!-- Rendered via JS -->
+            </div>
+
+          </main>
+        </div>
+      </div>
+      <!-- Subview A2: Shop Catalog View (Enter a specific shop) -->
+      <div id="cust-shop-catalog" class="sub-view">
+        <div class="section-header" style="margin-bottom: 20px;">
+          <button class="back-btn" id="catalog-back-btn" style="padding: 8px 16px; display: inline-flex; align-items: center; gap: 8px; border-radius: var(--border-radius-full);">
+            <i data-lucide="arrow-left"></i><span>Back to Shops Directory</span>
+          </button>
+        </div>
+
+        <div class="glass-card" style="padding: 24px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--accent-color);">
+          <div>
+            <h2 id="catalog-shop-name" style="font-size: 1.8rem; font-family: var(--font-heading);">Shop Name</h2>
+            <div style="display: flex; gap: 16px; margin-top: 8px; font-size: 0.9rem; color: var(--text-secondary);">
+              <span id="catalog-shop-category" style="text-transform: uppercase; font-weight: 600; color: var(--accent-color);"></span>
+              <span>•</span>
+              <span id="catalog-shop-area"><i data-lucide="map-pin" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;"></i></span>
+              <span>•</span>
+              <span id="catalog-shop-delivery"><i data-lucide="truck" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;"></i></span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+
+            <span class="inv-stock-badge in" style="padding: 6px 14px;"><i data-lucide="wifi" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;"></i> Live Online</span>
+          </div>
+        </div>
+
+        <!-- Filters Bar inside Shop -->
+        <div class="filters-bar">
+          <div class="filters-group">
+            <span style="font-weight: 500;">Search Products:</span>
+            <input type="text" id="shop-catalog-search" placeholder="Search this store..." style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: var(--border-radius-full); font-size: 0.9rem;">
+            <!-- Cart Trigger (Moved next to search) -->
+            <button class="nav-btn" id="cart-btn" aria-label="Shopping Cart" style="margin-left: 8px; border: 1px solid var(--border-color); background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="shopping-cart"></i>
+              <span class="badge" id="cart-count-badge" style="top: -5px; right: -5px;">0</span>
+            </button>
+          </div>
+          <div class="filters-group">
+            <span>Sort:</span>
+            <select id="catalog-sort" class="filter-select">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Catalog Grid -->
+        <div class="products-grid" id="catalog-products-grid">
+          <!-- Dynamic rendering of shop products -->
+        </div>
+      </div>
+
+      <!-- Subview A3: Secure Checkout -->
+      <div id="cust-checkout-view" class="sub-view">
+        <div class="section-header">
+          <h2 class="section-title">Delivery Checkout</h2>
+        </div>
+
+        <!-- Steps Progress -->
+        <div class="checkout-steps">
+          <div class="step-indicator active" id="step-ind-1">
+            <div class="step-num">1</div>
+            <span class="step-label">Delivery Address</span>
+          </div>
+          <div class="step-indicator" id="step-ind-2">
+            <div class="step-num">2</div>
+            <span class="step-label">Payment Method</span>
+          </div>
+          <div class="step-indicator" id="step-ind-3">
+            <div class="step-num">3</div>
+            <span class="step-label">Verify Order</span>
+          </div>
+        </div>
+
+        <div class="checkout-grid">
+          <!-- Left Forms -->
+          <div class="checkout-forms glass-card" style="padding: 30px;">
+            
+            <!-- Step 1: Address Details -->
+            <div class="checkout-panel active" id="checkout-panel-1">
+              <h3 class="form-title"><i data-lucide="map-pin"></i> Shipping Address</h3>
+              <div id="registered-address-display" style="padding: 16px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); margin-bottom: 20px; line-height: 1.6; color: var(--text-secondary);">
+                <!-- Populated by JS -->
+              </div>
+              <div class="panel-actions">
+                <div></div>
+                <button class="next-btn" id="checkout-next-1">
+                  <span>Continue to Payment</span>
+                  <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Payment Details -->
+            <div class="checkout-panel" id="checkout-panel-2">
+              <h3 class="form-title"><i data-lucide="wallet"></i> Payment Mode</h3>
+              
+              <!-- Payment Selector (Hidden, COD active by default) -->
+              <div style="margin-bottom: 24px; display: none;">
+                <div class="option-label">Choose Payment Option</div>
+                <div class="option-selector" id="payment-method-selector">
+                  <button type="button" class="option-pill" data-method="card">
+                    <i data-lucide="credit-card" style="vertical-align: middle; margin-right: 4px; width: 16px; height: 16px;"></i> Credit/Debit Card
+                  </button>
+                  <button type="button" class="option-pill" data-method="upi">
+                    <i data-lucide="smartphone" style="vertical-align: middle; margin-right: 4px; width: 16px; height: 16px;"></i> UPI ID / QR
+                  </button>
+                  <button type="button" class="option-pill active" data-method="cod">
+                    <i data-lucide="banknote" style="vertical-align: middle; margin-right: 4px; width: 16px; height: 16px;"></i> Cash on Delivery
+                  </button>
+                </div>
+              </div>
+
+              <!-- CARD (Hidden) -->
+              <div id="payment-method-card-container" style="display: none;">
+                <div class="credit-card-mock">
+                  <div class="card-logo-chip">
+                    <div class="card-chip"></div>
+                    <div class="card-brand" id="card-brand-display">VISA</div>
+                  </div>
+                  <div class="card-number-mock" id="card-num-display">•••• •••• •••• ••••</div>
+                  <div class="card-holder-exp">
+                    <div>
+                      <div class="card-label">Card Holder</div>
+                      <div class="card-val" id="card-name-display">RAHUL SHARMA</div>
+                    </div>
+                    <div>
+                      <div class="card-label">Expires</div>
+                      <div class="card-val" id="card-exp-display">MM/YY</div>
+                    </div>
+                  </div>
+                </div>
+
+                <form id="payment-form" class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="pay-name">Name on Card</label>
+                    <input type="text" id="pay-name" placeholder="Rahul Sharma">
+                  </div>
+                  <div class="form-group full-width">
+                    <label for="pay-card-num">Card Number</label>
+                    <input type="text" id="pay-card-num" placeholder="4111 2222 3333 4444" maxlength="19">
+                  </div>
+                  <div class="form-group">
+                    <label for="pay-expiry">Expiry Date</label>
+                    <input type="text" id="pay-expiry" placeholder="MM/YY" maxlength="5">
+                  </div>
+                  <div class="form-group">
+                    <label for="pay-cvv">CVV</label>
+                    <input type="password" id="pay-cvv" placeholder="•••" maxlength="3">
+                  </div>
+                </form>
+              </div>
+
+              <!-- UPI -->
+              <div id="payment-method-upi-container" style="display: none; text-align: center;">
+                <div style="max-width: 320px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                  <div style="background: white; padding: 16px; border-radius: var(--border-radius-md); box-shadow: var(--shadow-md); width: 180px; height: 180px; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="qr-code" style="width: 145px; height: 145px; color: #000;"></i>
+                  </div>
+                  <p style="font-size: 0.85rem; color: var(--text-secondary);">Scan code via BHIM, GPay, PhonePe, Paytm</p>
+                  <div style="width: 100%; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                    <span style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 8px;">Or Pay via UPI ID</span>
+                    <input type="text" id="pay-upi-id" placeholder="username@upi" style="width: 100%; text-align: center; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+                  </div>
+                </div>
+              </div>
+
+              <!-- COD -->
+              <div id="payment-method-cod-container" style="display: block; padding: 20px; text-align: center;">
+                <div style="max-width: 400px; margin: 0 auto;">
+                  <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--accent-light); color: var(--accent-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+                    <i data-lucide="banknote" style="width: 40px; height: 40px;"></i>
+                  </div>
+                  <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Cash on Delivery</h4>
+                  <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">Pay in cash or via mobile UPI QR directly to the courier agent when your delivery package arrives at your door.</p>
+                </div>
+              </div>
+
+              <div class="panel-actions">
+                <button class="back-btn" id="checkout-back-2">
+                  <i data-lucide="arrow-left"></i><span>Back</span>
+                </button>
+                <button class="next-btn" id="checkout-next-2">
+                  <span>Continue to Review</span><i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3: Review Order -->
+            <div class="checkout-panel" id="checkout-panel-3">
+              <h3 class="form-title"><i data-lucide="eye"></i> Review & Dispatch</h3>
+              <div class="receipt-details" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+                <div>
+                  <strong style="display: block; margin-bottom: 4px; font-size: 0.9rem; color: var(--text-secondary);">Delivery Location:</strong>
+                  <span id="review-shipping-address">Address placeholder</span>
+                </div>
+                <div>
+                  <strong style="display: block; margin-bottom: 4px; font-size: 0.9rem; color: var(--text-secondary);">Payment Choice:</strong>
+                  <span id="review-payment-method">Payment choice placeholder</span>
+                </div>
+              </div>
+              <div style="background: var(--bg-tertiary); padding: 16px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color);">
+                <i data-lucide="shield-check" style="color: var(--success-color); vertical-align: middle; margin-right: 6px;"></i>
+                <span style="font-size: 0.9rem; color: var(--text-secondary);">Your delivery will be routed through the local agency.</span>
+              </div>
+              <div class="panel-actions">
+                <button class="back-btn" id="checkout-back-3">
+                  <i data-lucide="arrow-left"></i><span>Back</span>
+                </button>
+                <button class="next-btn" id="checkout-confirm-btn" style="background: var(--success-color); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                  <i data-lucide="check-circle-2"></i><span>Dispatch Order</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Checkout Sidebar -->
+          <div class="checkout-sidebar glass-card" style="padding: 24px;">
+            <h3 style="font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Delivery Basket</h3>
+            <div class="checkout-summary-list" id="checkout-summary-items" style="margin-bottom: 16px;">
+              <!-- Cart items -->
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="checkout-promo-input" placeholder="Enter Promo Code" style="flex: 1; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 12px; border-radius: var(--border-radius-sm); text-transform: uppercase;">
+                <button type="button" id="checkout-promo-apply-btn" class="next-btn" style="padding: 10px 16px;">Apply</button>
+              </div>
+              <div id="checkout-promo-msg" style="font-size: 0.8rem; margin-top: 6px; font-weight: 600;"></div>
+            </div>
+
+            <div style="border-top: 1px dashed var(--border-color); padding-top: 16px;">
+              <div class="summary-row">
+                <span>Items Subtotal</span>
+                <span id="checkout-subtotal">₹0.00</span>
+              </div>
+              <div class="summary-row">
+                <span>Delivery Fee</span>
+                <span id="checkout-shipping">₹40.00</span>
+              </div>
+              <div class="summary-row">
+                <span>Discount Promo</span>
+                <span id="checkout-discount">₹0.00</span>
+              </div>
+              <div class="summary-row total">
+                <span>Grand Total</span>
+                <span id="checkout-total">₹0.00</span>
+              </div>
+              <div style="margin-top: 12px; padding: 10px 12px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.18); border-radius: var(--border-radius-sm); color: #f59e0b; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.4;">
+                <i data-lucide="alert-triangle" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px; display: inline-block;"></i>
+                This is not your final bill. The final bill is shown when the order is delivered.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subview A4: Order Success -->
+      <div id="cust-success-view" class="sub-view">
+        <div class="order-success glass-card">
+          <div class="success-icon-container" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4; box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);">
+            <i data-lucide="truck"></i>
+          </div>
+          <h2 class="success-title">Courier Dispatched!</h2>
+          <p class="success-text">Order accepted. The Delivery Agency is assigning a courier agent to pick up your package from the shop. You can monitor the dispatch in the Admin Hub.</p>
+          
+          <div class="order-receipt-card">
+            <div class="receipt-header">
+              <span>Delivery Ref: <strong id="success-order-id">#AP-98231</strong></span>
+              <span>Date: May 30, 2026</span>
+            </div>
+            <div id="success-receipt-items"></div>
+            <div class="receipt-row total">
+              <span>Cash/Payment Due</span>
+              <span id="success-receipt-total">₹0.00</span>
+            </div>
+          </div>
+          
+          <div style="margin-top: 16px; padding: 12px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.18); border-radius: var(--border-radius-sm); color: #f59e0b; font-size: 0.85rem; font-weight: 600; text-align: center;">
+            <i data-lucide="alert-triangle" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px; display: inline-block;"></i>
+            This is not your final bill. The final bill is shown when the order is delivered.
+          </div>
+
+          <div class="success-actions">
+            <button class="primary-success-btn" id="success-continue-btn" style="background: #06b6d4; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);">Browse Shops</button>
+            <button class="back-btn" id="success-print-btn"><i data-lucide="printer"></i> Print Invoice</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subview A5: Your Orders View -->
+      <div id="cust-orders-view" class="sub-view">
+        <div class="section-header" style="margin-bottom: 20px;">
+          <h2 class="section-title">Your Orders</h2>
+        </div>
+        
+        <!-- Filter Chips -->
+        <div class="premium-filters" id="customer-order-filters">
+          <button class="premium-chip active" data-filter="All">All Orders</button>
+          <button class="premium-chip" data-filter="Pending">Processing</button>
+          <button class="premium-chip" data-filter="Dispatched">Dispatched</button>
+          <button class="premium-chip" data-filter="Delivered">Delivered</button>
+        </div>
+        <div id="customer-orders-list" style="display: flex; flex-direction: column; gap: 16px;">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== PORTAL B: SHOP PARTNER PORTAL ==================== -->
+    <div id="portal-shop-view" class="app-view">
+      
+      <!-- Subview B1: Shop Partner Login Screen -->
+      <div id="shop-login-panel" class="sub-view active" style="max-width: 480px; margin: 40px auto;">
+        <div class="glass-card" style="padding: 40px;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <div style="width: 60px; height: 60px; border-radius: 16px; background: var(--accent-light); color: var(--accent-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+              <i data-lucide="store" style="width:30px; height:30px;"></i>
+            </div>
+            <h3 style="font-size: 1.6rem; font-family: var(--font-heading); margin-bottom: 8px;">Shop Partner Login</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Sign in to open your shop, manage products and toggle online status.</p>
+          </div>
+
+          <!-- Demo credentials hint box -->
+          <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: var(--border-radius-sm); padding: 12px; margin-bottom: 24px; font-size: 0.85rem;">
+            <strong style="color: var(--accent-color); display: block; margin-bottom: 4px;"><i data-lucide="info" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;"></i> Demo Credentials (Pre-registered):</strong>
+            <div>ID: <code style="font-weight:700; color:var(--text-primary);">SHOP-001</code> | Password: <code style="font-weight:700; color:var(--text-primary);">admin123</code></div>
+            <div style="margin-top: 4px; font-size: 0.75rem; color: var(--text-muted);">Admins can generate new Shop credentials under "Agency Control Hub".</div>
+          </div>
+
+          <form id="shop-login-form" style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="form-group">
+              <label for="login-shop-id">Shop ID</label>
+              <input type="text" id="login-shop-id" placeholder="e.g. SHOP-101" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+            </div>
+            <div class="form-group">
+              <label for="login-shop-pass">Password</label>
+              <input type="password" id="login-shop-pass" placeholder="••••••••" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+            </div>
+            <button type="submit" class="next-btn" style="width:100%; margin-top: 10px; padding: 14px;">Sign In to Shop</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Subview B2: Shop Dashboard (Logged In) -->
+      <div id="shop-dashboard-panel" class="sub-view">
+        <div class="glass-card" style="padding: 24px; margin-bottom: 30px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--accent-color);">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <h2 id="partner-shop-name" style="font-size: 1.8rem; font-family: var(--font-heading);">Shop Name</h2>
+              <span id="partner-shop-id" style="font-size: 0.85rem; font-weight: 700; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: var(--border-radius-sm); color: var(--text-secondary);">SHOP-000</span>
+            </div>
+            <div style="display: flex; gap: 16px; margin-top: 6px; font-size: 0.9rem; color: var(--text-secondary);">
+              <span id="partner-shop-category" style="text-transform: uppercase; font-weight: 600; color: var(--accent-color);">Category</span>
+              <span>•</span>
+              <span id="partner-shop-area">Area</span>
+            </div>
+          </div>
+
+          <!-- ONLINE / OFFLINE TOGGLE -->
+          <div style="display: flex; align-items: center; gap: 16px; background: var(--bg-tertiary); padding: 12px 20px; border-radius: var(--border-radius-full); border: 1px solid var(--border-color);">
+            <strong id="partner-status-label" style="font-size: 0.95rem; min-width: 120px;">Offline (Closed)</strong>
+            <button type="button" class="nav-btn" id="partner-status-toggle-btn" style="width: 50px; height: 50px; background: var(--error-color); color: white; border-radius: 50%; border: none;">
+              <i data-lucide="wifi-off"></i>
+            </button>
+          </div>
+
+          <button class="back-btn" id="partner-logout-btn" style="padding: 10px 20px; border-radius: var(--border-radius-full); border-color: rgba(239, 68, 68, 0.3); color: var(--error-color);">
+            <i data-lucide="log-out" style="width:16px; height:16px; vertical-align:middle; margin-right:6px;"></i>Log Out
+          </button>
+        </div>
+
+        <!-- Dashboard Layout -->
+        <div class="dashboard-layout" style="grid-template-columns: 1fr 1.5fr;">
+          <!-- Left: Add product form -->
+          <div class="form-card glass-card">
+            <h3 style="font-size: 1.2rem; border-bottom:1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;"><i data-lucide="plus-circle"></i> Add Shop Product</h3>
+            <form id="shop-add-product-form" class="form-grid" style="grid-template-columns: 1fr;">
+              <div class="form-group">
+                <label for="s-prod-name">Product Name</label>
+                <input type="text" id="s-prod-name" placeholder="e.g. Organic Tomato 1Kg" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm);">
+              </div>
+              <div class="form-group">
+                <label for="s-prod-price">Retail Price (₹)</label>
+                <input type="number" id="s-prod-price" placeholder="e.g. 60" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm);">
+              </div>
+              <div class="form-group">
+                <label for="s-prod-discount">Discount Percentage (%)</label>
+                <input type="number" id="s-prod-discount" placeholder="e.g. 15 (Optional)" min="0" max="99" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm);">
+              </div>
+              <div class="form-group">
+                <label for="s-prod-stock">Available Inventory Stock</label>
+                <input type="number" id="s-prod-stock" placeholder="e.g. 50" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm);">
+              </div>
+
+              <div class="form-group">
+                <label for="s-prod-desc">Product Description</label>
+                <textarea id="s-prod-desc" rows="3" placeholder="Description, specs..." required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); resize: vertical;"></textarea>
+              </div>
+              <button type="submit" class="next-btn" style="width: 100%; padding: 12px; margin-top: 10px;">List Product</button>
+            </form>
+            
+            <!-- Courier Requirements Allocation -->
+            <div class="form-card glass-card" style="margin-top: 24px;">
+              <h3 style="font-size: 1.2rem; border-bottom:1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                <i data-lucide="truck" style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px; display: inline-block;"></i> Courier Staffing Requirements
+              </h3>
+              <form id="shop-courier-requirements-form" class="form-grid" style="grid-template-columns: 1fr;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; background: rgba(6, 182, 212, 0.08); padding: 12px; border-radius: var(--border-radius-sm); border: 1px solid rgba(6, 182, 212, 0.15);">
+                  <span style="font-size: 0.9rem; font-weight: 500;">Currently Assigned Delivery Boys:</span>
+                  <strong style="color: #06b6d4; font-size: 1.2rem;" id="partner-assigned-couriers-display">1</strong>
+                </div>
+                <div class="form-group">
+                  <label for="s-couriers-required">Requested Delivery Boys count</label>
+                  <select id="s-couriers-required" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    <option value="1">1 Courier Agent</option>
+                    <option value="2">2 Courier Agents</option>
+                    <option value="3">3 Courier Agents</option>
+                    <option value="4">4 Courier Agents</option>
+                    <option value="5">5 Courier Agents</option>
+                  </select>
+                </div>
+                <button type="submit" class="next-btn" style="width: 100%; padding: 12px; margin-top: 10px;">Update Request</button>
+              </form>
+            </div>
+            
+            <!-- Daily Promo Codes Panel -->
+            <div class="form-card glass-card" style="margin-top: 24px;">
+              <h3 style="font-size: 1.2rem; border-bottom:1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
+                <i data-lucide="tag" style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px; display: inline-block;"></i> <span id="partner-promo-title">Today's Promo Codes</span>
+              </h3>
+              
+              <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <div style="position: relative;">
+                  <input type="number" id="partner-promo-rate-input" min="0" max="100" placeholder="%" style="width: 100px; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 8px 12px; padding-right: 28px; border-radius: var(--border-radius-sm);">
+                  <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-weight: bold; color: var(--text-secondary);">%</span>
+                </div>
+                <button type="button" id="partner-promo-rate-btn" class="next-btn" style="padding: 8px 16px;">Set Discount</button>
+              </div>
+
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;" id="partner-promo-desc">Share these codes with customers for a discount on their order. Codes refresh daily. Each code is valid for one delivery only.</p>
+              <div id="partner-promo-codes-list" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Dynamically populated promo codes -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Product Inventory catalog list -->
+          <div class="db-inventory-card glass-card">
+            <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;"><i data-lucide="package"></i> Shop Inventory</h3>
+            <div class="inventory-table-container">
+              <table class="inventory-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="partner-inventory-rows">
+                  <!-- Dynamic render of partner inventory products -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Delivery Tracker Panel -->
+        <div class="db-inventory-card glass-card" style="padding: 24px; margin-top: 30px;">
+          <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center;">
+            <div style="display: flex; align-items: center;"><i data-lucide="navigation" style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px; display: inline-block;"></i> Active Deliveries Tracking</div>
+            <button class="next-btn" onclick="printSection(this)" style="padding: 4px 12px; font-size: 0.8rem; margin-left: auto; display: flex; align-items: center; gap: 6px; border-radius: 4px;"><i data-lucide="printer" style="width:14px;height:14px;"></i> Print</button>
+          </h3>
+          <div class="inventory-table-container">
+            <table class="inventory-table">
+              <thead>
+                <tr>
+                  <th>Delivery Ref</th>
+                  <th>Customer Name</th>
+                  <th>Items Ordered</th>
+                  <th>Total Revenue</th>
+                  <th>Order Discount</th>
+                  <th>Courier Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="partner-delivery-rows">
+                <!-- Dynamic render of partner delivery tracking -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Daily Reports Panel -->
+        <div class="db-inventory-card glass-card" style="padding: 24px; margin-top: 30px;">
+          <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;"><i data-lucide="bar-chart-3" style="color: var(--accent-color);"></i> <span>Daily Sales & Delivery Reports</span></div>
+            <button class="next-btn" onclick="printSection(this)" style="padding: 4px 12px; font-size: 0.8rem; margin-left: auto; display: flex; align-items: center; gap: 6px; border-radius: 4px;"><i data-lucide="printer" style="width:14px;height:14px;"></i> Print</button>
+          </h3>
+          <div class="inventory-table-container">
+            <table class="inventory-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Orders Completed</th>
+                  <th>Commission Rate (%)</th>
+                  <th>Commission Paid</th>
+                  <th>Total Revenue (Net)</th>
+                  <th>Distance Covered</th>
+                  <th>Delivery Fees Paid</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="partner-reports-rows">
+                <!-- Dynamic render of shop daily reports -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== PORTAL C: DELIVERY AGENCY HUB ==================== -->
+    <div id="portal-agency-view" class="app-view">
+      
+      <!-- Subview C1: Agency Login Screen -->
+      <div id="agency-login-panel" class="sub-view active" style="max-width: 480px; margin: 40px auto;">
+        <div class="glass-card" style="padding: 40px;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <div style="width: 60px; height: 60px; border-radius: 16px; background: rgba(6, 182, 212, 0.15); color: #06b6d4; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+              <i data-lucide="shield-alert" style="width:30px; height:30px;"></i>
+            </div>
+            <h3 style="font-size: 1.6rem; font-family: var(--font-heading); margin-bottom: 8px;">Agency Hub Login</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Sign in to access admin tools, onboard merchants, and dispatch courier deliveries.</p>
+          </div>
+
+          <!-- Demo credentials hint box -->
+          <div style="background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: var(--border-radius-sm); padding: 12px; margin-bottom: 24px; font-size: 0.85rem;">
+            <strong style="color: #06b6d4; display: block; margin-bottom: 4px;"><i data-lucide="info" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;"></i> Credentials for Testing:</strong>
+            <div>Password: <code style="font-weight:700; color:var(--text-primary);">agency123</code></div>
+          </div>
+
+          <form id="agency-login-form" style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="form-group">
+              <label for="login-agency-pass">Agency Key / Password</label>
+              <input type="password" id="login-agency-pass" placeholder="••••••••" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+            </div>
+            <button type="submit" class="next-btn" style="width:100%; margin-top: 10px; padding: 14px; background: #06b6d4; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);">Access Hub</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Subview C2: Agency Admin Control Hub Dashboard -->
+      <div id="agency-dashboard-panel" class="sub-view">
+        
+        <!-- Header with logout -->
+        <div class="glass-card" style="padding: 16px 24px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid #06b6d4;">
+          <div>
+            <h3 style="font-size: 1.4rem; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="shield-check" style="color: #06b6d4;"></i>
+              <span>Authorized Control Tower</span>
+            </h3>
+          </div>
+          <button class="back-btn" id="agency-logout-btn" style="padding: 8px 16px; border-radius: var(--border-radius-full); border-color: rgba(239, 68, 68, 0.3); color: var(--error-color); font-size: 0.9rem;">
+            <i data-lucide="log-out" style="width:14px; height:14px; vertical-align:middle; margin-right:6px;"></i>Lock Console
+          </button>
+        </div>
+
+        <div class="dashboard-layout">
+          <!-- Sidebar Navigation -->
+          <aside class="dashboard-sidebar">
+            <div class="db-nav-link active" data-panel="agency-deliveries">
+              <i data-lucide="truck"></i>
+              <span>Courier Dispatch Monitor</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-customer-approvals">
+              <i data-lucide="users"></i>
+              <span>Customer Approvals</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-register-shops">
+              <i data-lucide="store"></i>
+              <span>Register New Shop</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-shops-list">
+              <i data-lucide="list"></i>
+              <span>Registered Shops Registry</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-courier-allocation">
+              <i data-lucide="user-plus"></i>
+              <span>Allocate Courier Staff</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-reports">
+              <i data-lucide="bar-chart-3"></i>
+              <span>Daily Operations Report</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-commission-settings">
+              <i data-lucide="percent"></i>
+              <span>Shop Commissions</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-fee-settings">
+              <i data-lucide="calculator"></i>
+              <span>Delivery Fee Rates</span>
+            </div>
+            <div class="db-nav-link" data-panel="agency-offers-panel">
+              <i data-lucide="tag"></i>
+              <span>Customer Offers</span>
+            </div>
+          </aside>
+
+          <!-- Main Agency Dashboard Content Panel -->
+          <div class="dashboard-content">
+            
+            <!-- PANEL C-OFFERS: CUSTOMER OFFERS -->
+            <div class="db-panel" id="agency-offers-panel">
+              <!-- Password Gate -->
+              <div id="agency-offers-gate" class="glass-card" style="padding: 40px; max-width: 400px; margin: 40px auto; text-align: center;">
+                <i data-lucide="lock" style="width: 48px; height: 48px; color: var(--error-color); margin-bottom: 16px;"></i>
+                <h3 style="margin-bottom: 12px;">Restricted Area</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">Enter marketing staff password to manage customer offers.</p>
+                <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+                  <input type="password" id="offers-pass-input" placeholder="Password (offer123)">
+                </div>
+                <button id="offers-unlock-btn" class="next-btn" style="width: 100%; justify-content: center;">Unlock Control</button>
+              </div>
+              
+              <!-- Offers Content -->
+              <div id="agency-offers-content" style="display: none;">
+                <div class="section-header">
+                  <h2 class="section-title">Manage Customer Offers</h2>
+                </div>
+                
+                <div class="glass-card" style="padding: 24px; margin-bottom: 30px;">
+                  <h3 style="margin-bottom: 16px; color: #6C4DFF;">Create New Offer</h3>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                      <label>Select Shop</label>
+                      <select id="offer-shop-select" style="width: 100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px;">
+                        <!-- Filled by JS -->
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Offer Title (e.g. Summer Sale)</label>
+                      <input type="text" id="offer-title-input" placeholder="Enter title" style="width: 100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px;">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                      <label>Offer Details (e.g. Upto 40% Off!)</label>
+                      <input type="text" id="offer-details-input" placeholder="Enter offer details" style="width: 100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px;">
+                    </div>
+                  </div>
+                  <button id="offer-go-live-btn" style="margin-top: 16px; padding: 12px 24px; background: #6C4DFF; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="radio" style="width:16px;height:16px;"></i> Go Live
+                  </button>
+                </div>
+                
+                <h3 style="margin-bottom: 16px; margin-top: 24px;">Active Live Offers</h3>
+                <div id="agency-active-offers-list" style="display: flex; flex-direction: column; gap: 12px;">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- PANEL C-AUTH: CUSTOMER APPROVALS -->
+            <div class="db-panel" id="agency-customer-approvals">
+              <!-- Password Gate -->
+              <div id="agency-approvals-gate" class="glass-card" style="padding: 40px; max-width: 400px; margin: 40px auto; text-align: center;">
+                <i data-lucide="lock" style="width: 48px; height: 48px; color: var(--error-color); margin-bottom: 16px;"></i>
+                <h3 style="margin-bottom: 12px;">Restricted Area</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">Enter technical staff password to approve customer registrations.</p>
+                <div class="form-group" style="text-align: left; margin-bottom: 16px;">
+                  <input type="password" id="approvals-pass-input" placeholder="Password (techadmin123)">
+                </div>
+                <button id="approvals-unlock-btn" class="next-btn" style="width: 100%; justify-content: center;">Unlock Control</button>
+              </div>
+              
+              <!-- Approvals Content -->
+              <div id="agency-approvals-content" style="display: none;">
+                <div class="section-header">
+                  <h2 class="section-title">Pending Customer Registrations</h2>
+                </div>
+                <div class="inventory-table-container glass-card">
+                  <table class="inventory-table">
+                    <thead>
+                      <tr>
+                        <th>Customer Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="agency-approvals-rows">
+                      <!-- Dynamic rows -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANEL C1: COURIER DISPATCH MONITOR -->
+            <div class="db-panel active" id="agency-deliveries">
+              <!-- Stats overview -->
+              <div class="stats-grid">
+                <div class="stat-card glass-card">
+                  <div class="stat-info">
+                    <h4>Total Registered Shops</h4>
+                    <div class="stat-val" id="ag-stat-total-shops">0</div>
+                  </div>
+                  <div class="stat-icon sales" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-color);">
+                    <i data-lucide="store"></i>
+                  </div>
+                </div>
+                <div class="stat-card glass-card">
+                  <div class="stat-info">
+                    <h4>Shops Online Live</h4>
+                    <div class="stat-val" id="ag-stat-live-shops" style="color: var(--success-color);">0</div>
+                  </div>
+                  <div class="stat-icon visits" style="background: rgba(16, 185, 129, 0.15); color: var(--success-color);">
+                    <i data-lucide="wifi"></i>
+                  </div>
+                </div>
+                <div class="stat-card glass-card">
+                  <div class="stat-info">
+                    <h4>Pending Dispatches</h4>
+                    <div class="stat-val" id="ag-stat-pending-deliveries" style="color: var(--warning-color);">0</div>
+                  </div>
+                  <div class="stat-icon products" style="background: rgba(245, 158, 11, 0.15); color: var(--warning-color);">
+                    <i data-lucide="clock"></i>
+                  </div>
+                </div>
+                <div class="stat-card glass-card">
+                  <div class="stat-info">
+                    <h4>Deliveries Completed</h4>
+                    <div class="stat-val" id="ag-stat-completed-deliveries" style="color: #06b6d4;">0</div>
+                  </div>
+                  <div class="stat-icon alerts" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">
+                    <i data-lucide="check-square"></i>
+                  </div>
+                </div>
+                <div class="stat-card glass-card">
+                  <div class="stat-info">
+                    <h4>Total Courier Pool</h4>
+                    <div class="stat-val" id="ag-stat-total-couriers">10</div>
+                  </div>
+                  <div class="stat-icon sales" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
+                    <i data-lucide="users"></i>
+                  </div>
+                </div>
+                <div class="stat-card glass-card">
+                  <div class="stat-info">
+                    <h4>Available Couriers</h4>
+                    <div class="stat-val" id="ag-stat-available-couriers" style="color: var(--success-color);">10</div>
+                  </div>
+                  <div class="stat-icon visits" style="background: rgba(16, 185, 129, 0.15); color: var(--success-color);">
+                    <i data-lucide="user-check"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Monitor Login View -->
+              <div id="agency-monitor-login-view" class="form-card glass-card" style="margin-bottom: 24px;">
+                <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;"><i data-lucide="lock"></i> Shop Dispatch Monitor Login</h3>
+                <form id="agency-monitor-login-form" class="form-grid" style="grid-template-columns: 1fr;">
+                  <div class="form-group">
+                    <label for="monitor-shop-select">Select Shop to Monitor</label>
+                    <select id="monitor-shop-select" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+                      <!-- Dynamically populated -->
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="monitor-shop-password">Dispatch Log Password</label>
+                    <input type="password" id="monitor-shop-password" required placeholder="Enter shop monitor password" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+                  </div>
+                  <button type="submit" class="next-btn" style="width: 100%; padding: 12px; margin-top: 10px;">Login to Monitor</button>
+                </form>
+              </div>
+
+              <!-- Deliveries Table View (Hidden initially) -->
+              <div id="agency-monitor-table-view" class="db-inventory-card glass-card" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom:1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
+                  <h3 style="font-size: 1.2rem; margin: 0;"><i data-lucide="navigation"></i> Active Delivery Dispatch Log <span id="monitor-active-shop-name" style="color: var(--accent-color); font-weight: 700; margin-left: 8px;"></span></h3>
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <input type="date" id="monitor-date-filter" style="padding: 4px 8px; font-size: 0.85rem; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-tertiary); color: var(--text-primary);">
+                    <button id="monitor-generate-report-btn" class="nav-btn" style="padding: 6px 12px; font-size: 0.85rem; background: rgba(16, 185, 129, 0.1); color: var(--success-color);"><i data-lucide="printer" style="width: 14px; height: 14px;"></i> Generate Final Report</button>
+                    <button id="monitor-logout-btn" class="nav-btn" style="padding: 6px 12px; font-size: 0.85rem; background: rgba(239, 68, 68, 0.1); color: var(--error-color);"><i data-lucide="log-out" style="width: 14px; height: 14px;"></i> Logout</button>
+                  </div>
+                </div>
+                <div class="inventory-table-container">
+                  <table class="inventory-table">
+                    <thead>
+                      <tr>
+                        <th>Ref / Customer</th>
+                        <th>Merchant Shop</th>
+                        <th>Order Contents</th>
+                        <th>Price Due</th>
+                        <th>Courier Status</th>
+                        <th>Actions</th>
+                        <th>Quick Message</th>
+                      </tr>
+                    </thead>
+                    <tbody id="agency-deliveries-rows">
+                      <!-- Dynamic courier dispatches rows -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANEL C2: REGISTER NEW SHOP -->
+            <div class="db-panel" id="agency-register-shops">
+              <div class="form-card glass-card" style="max-width: 600px;">
+                <h3 style="font-size: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;"><i data-lucide="plus-circle"></i> Onboard New Shop Partner</h3>
+                
+                <form id="agency-register-shop-form" class="form-grid" style="grid-template-columns: 1fr;">
+                  <div class="form-group">
+                    <label for="reg-shop-name">Shop / Business Name</label>
+                    <input type="text" id="reg-shop-name" placeholder="e.g. Royal Pharmacy" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+                  </div>
+                  <div class="form-group">
+                    <label for="reg-shop-category">Category</label>
+                    <select id="reg-shop-category" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+                      <option value="Food">Food</option>
+                      <option value="Grocery">Grocery</option>
+                      <option value="Restaurant">Restaurant</option>
+                      <option value="Student need">Student need</option>
+                      <option value="Vegetable shop">Vegetable shop</option>
+                      <option value="Tiffen shop">Tiffen shop</option>
+                      <option value="Daily need">Daily need</option>
+                      <option value="Electronics">Electronics</option>
+                      <option value="Cloths">Cloths</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="reg-shop-area">Shop Location / Area</label>
+                    <input type="text" id="reg-shop-area" placeholder="e.g. Connaught Place, Block C" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--border-radius-sm);">
+                  </div>
+                  <button type="submit" class="next-btn" style="width:100%; padding:14px; margin-top:10px;">Onboard Shop & Generate Credentials</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- PANEL C3: REGISTERED SHOPS REGISTRY -->
+            <div class="db-panel" id="agency-shops-list">
+              <div class="db-inventory-card glass-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom:1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
+                  <h3 style="font-size: 1.2rem; margin: 0;"><i data-lucide="database"></i> Registered Merchant Registry</h3>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="nav-btn" onclick="toggleAllShopsStatus(true)" style="padding: 6px 12px; font-size: 0.85rem; background: rgba(16, 185, 129, 0.1); color: var(--success-color);" title="Turn ALL shops Online"><i data-lucide="wifi" style="width: 14px; height: 14px;"></i> All Online</button>
+                    <button class="nav-btn" onclick="toggleAllShopsStatus(false)" style="padding: 6px 12px; font-size: 0.85rem; background: rgba(239, 68, 68, 0.1); color: var(--error-color);" title="Turn ALL shops Offline"><i data-lucide="wifi-off" style="width: 14px; height: 14px;"></i> All Offline</button>
+                  </div>
+                </div>
+                <div class="inventory-table-container">
+                  <table class="inventory-table">
+                    <thead>
+                      <tr>
+                        <th>Shop Details</th>
+                        <th>Shop Login ID</th>
+                        <th>Location Area</th>
+                        <th>Live Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="agency-shops-rows">
+                      <!-- Dynamic rendering of registered shops list -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANEL C4: COURIER ALLOCATION PANEL -->
+            <div class="db-panel" id="agency-courier-allocation">
+              <!-- Pool adjustment form -->
+              <div class="form-card glass-card" style="margin-bottom: 24px; padding: 24px;">
+                <h3 style="font-size: 1.2rem; border-bottom:1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <i data-lucide="settings" style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px; display: inline-block;"></i> Global Courier Pool Management
+                </h3>
+                <div style="display: flex; gap: 20px; align-items: flex-end;">
+                  <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                    <label for="agency-couriers-pool-input">Total Courier Pool (Delivery Boys)</label>
+                    <input type="number" id="agency-couriers-pool-input" min="1" value="10" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                  </div>
+                  <button id="agency-update-pool-btn" class="next-btn" style="padding: 10px 24px; height: 42px;">Update Pool Size</button>
+                </div>
+              </div>
+
+              <!-- Shop allocation table -->
+              <div class="db-inventory-card glass-card">
+                <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
+                  <i data-lucide="user-check"></i> Shop-Level Courier Allocations
+                </h3>
+                <div class="inventory-table-container">
+                  <table class="inventory-table">
+                    <thead>
+                      <tr>
+                        <th>Shop Name</th>
+                        <th>Location Area</th>
+                        <th>Required Couriers</th>
+                        <th>Assigned Couriers</th>
+                        <th>Adjust Assignment</th>
+                      </tr>
+                    </thead>
+                    <tbody id="agency-courier-allocation-rows">
+                      <!-- Dynamic rendering of shop allocations list -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANEL C6: DAILY OPERATIONS REPORTS -->
+            <div class="db-panel" id="agency-reports">
+              <div class="db-inventory-card glass-card" style="padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                  <h3 style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <i data-lucide="bar-chart-3" style="color: #06b6d4;"></i>
+                    <span>Daily Operations Reports</span>
+                  </h3>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <label style="font-size: 0.85rem; font-weight: 500;">Filter by Date:</label>
+                      <input type="date" id="daily-ops-date-filter" onchange="renderAgencyDailyReports()" style="padding: 6px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-tertiary); color: var(--text-primary); font-size: 0.85rem;">
+                    </div>
+                    <button onclick="printDailyOperationsReport()" style="padding: 6px 12px; background: #6C4DFF; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.85rem;">
+                      <i data-lucide="printer" style="width:14px;height:14px;"></i> Print Full Report
+                    </button>
+                  </div>
+                </div>
+                <div class="inventory-table-container">
+                  <table class="inventory-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Shop</th>
+                        <th>Total Orders</th>
+                        <th>Distance Covered</th>
+                        <th>Delivery Fees Collected</th>
+                        <th>Agency Commission</th>
+                        <th>Net Merchant Payouts</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="agency-reports-rows">
+                      <!-- Dynamic render of daily reports -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- PANEL C7: SHOP COMMISSIONS CONFIGURATION PANEL -->
+            <div class="db-panel" id="agency-commission-settings">
+              <div class="dashboard-layout" style="grid-template-columns: 1.2fr 1.8fr; gap: 24px;">
+                
+                <!-- Left: Volume-Based Tier Rules -->
+                <div class="form-card glass-card" style="padding: 24px;">
+                  <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="sliders" style="color: #06b6d4;"></i>
+                    <span>Volume-Based Rules</span>
+                  </h3>
+                  <form id="agency-commission-rules-form" class="form-grid" style="grid-template-columns: 1fr;">
+                    
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; background: rgba(6, 182, 212, 0.08); padding: 12px; border-radius: var(--border-radius-sm); border: 1px solid rgba(6, 182, 212, 0.15);">
+                      <span style="font-size: 0.9rem; font-weight: 500;">Enable Auto-Tiered Rules</span>
+                      <label class="switch-container" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                        <input type="checkbox" id="agency-rules-enabled" style="opacity: 0; width: 0; height: 0;">
+                        <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-color); transition: .4s; border-radius: 24px;"></span>
+                      </label>
+                    </div>
+
+                    <style>
+                      .switch-container input:checked + .slider {
+                        background-color: #06b6d4;
+                      }
+                      .slider:before {
+                        position: absolute;
+                        content: "";
+                        height: 16px;
+                        width: 16px;
+                        left: 4px;
+                        bottom: 4px;
+                        background-color: white;
+                        transition: .4s;
+                        border-radius: 50%;
+                      }
+                      .switch-container input:checked + .slider:before {
+                        transform: translateX(20px);
+                      }
+                    </style>
+
+                    <div class="form-group">
+                      <label for="agency-tier1-limit">Tier 1 Threshold (Orders &lt; Limit)</label>
+                      <input type="number" id="agency-tier1-limit" min="1" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    </div>
+                    <div class="form-group" style="margin-top: 8px;">
+                      <label for="agency-tier1-rate">Tier 1 Commission Rate (%)</label>
+                      <input type="number" id="agency-tier1-rate" min="0" max="100" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    </div>
+
+                    <div class="form-group" style="margin-top: 12px; border-top: 1px dashed var(--border-color); padding-top: 12px;">
+                      <label for="agency-tier2-limit">Tier 2 Threshold (Orders &lt; Limit)</label>
+                      <input type="number" id="agency-tier2-limit" min="1" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    </div>
+                    <div class="form-group" style="margin-top: 8px;">
+                      <label for="agency-tier2-rate">Tier 2 Commission Rate (%)</label>
+                      <input type="number" id="agency-tier2-rate" min="0" max="100" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    </div>
+
+                    <div class="form-group" style="margin-top: 12px; border-top: 1px dashed var(--border-color); padding-top: 12px;">
+                      <label for="agency-tier3-rate">Tier 3 Commission Rate (%) (No Limit)</label>
+                      <input type="number" id="agency-tier3-rate" min="0" max="100" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    </div>
+
+                    <button type="submit" class="next-btn" style="width: 100%; padding: 10px; margin-top: 16px; background: #06b6d4;">Update Auto Rules</button>
+                  </form>
+                </div>
+
+                <!-- Right: Shop Payout Rates Settings -->
+                <div class="db-inventory-card glass-card" style="padding: 24px;">
+                  <h3 style="font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px;">
+                    <i data-lucide="percent" style="color: #06b6d4;"></i>
+                    <span>Merchant Commission Configuration</span>
+                  </h3>
+                  <div class="inventory-table-container">
+                    <table class="inventory-table">
+                      <thead>
+                        <tr>
+                          <th>Shop Name</th>
+                          <th>Total Orders</th>
+                          <th>Gross Revenue (Product + Delivery)</th>
+                          <th>Calculation Mode</th>
+                          <th>Commission Rate (%)</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="agency-shop-commission-rows">
+                        <!-- Dynamic list of shops and their commission overrides -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- PANEL C5: DELIVERY FEE CONFIGURATION PANEL -->
+            <div class="db-panel" id="agency-fee-settings">
+              <div class="form-card glass-card" style="padding: 30px; max-width: 500px; margin: 0 auto;">
+                <h3 style="font-size: 1.3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 24px;">
+                  <i data-lucide="calculator" style="vertical-align: middle; margin-right: 6px; width: 20px; height: 20px; display: inline-block;"></i> Distance-Based Delivery Rates
+                </h3>
+                <form id="agency-fee-settings-form" class="form-grid" style="grid-template-columns: 1fr;">
+                  <div class="form-group">
+                    <label for="agency-base-fee-input">Base Delivery Fee (₹)</label>
+                    <input type="number" id="agency-base-fee-input" min="0" step="0.5" value="30.00" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    <small style="color: var(--text-secondary); margin-top: 4px; display: block;">Standard handling and pickup fee charged on all orders.</small>
+                  </div>
+                  <div class="form-group" style="margin-top: 16px;">
+                    <label for="agency-per-km-input">Per-Kilometer Rate (₹ / km)</label>
+                    <input type="number" id="agency-per-km-input" min="0" step="0.5" value="10.00" required style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none;">
+                    <small style="color: var(--text-secondary); margin-top: 4px; display: block;">Additional distance charge based on shop-to-customer distance.</small>
+                  </div>
+                  <button type="submit" class="next-btn" style="width: 100%; padding: 12px; margin-top: 24px;">Update Fee Configuration</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- --- REGISTRATION SUCCESS DIALOG MODAL --- -->
+  <dialog id="registration-success-modal" class="modal">
+    <div class="modal-content glass-card" style="max-width: 450px; padding: 30px; text-align: center; display: block;">
+      <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); color: var(--success-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+        <i data-lucide="check-circle" style="width:40px; height:40px;"></i>
+      </div>
+      <h3 style="font-size: 1.5rem; font-family: var(--font-heading); margin-bottom: 10px;">Shop Onboarded!</h3>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px;">Login credentials generated for the shop partner. Please print or securely share these details.</p>
+      
+      <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 20px; text-align: left; margin-bottom: 24px; font-family: monospace;">
+        <div style="margin-bottom: 12px; font-size: 0.95rem;">
+          <span style="color: var(--text-muted);">Shop Name:</span> <strong id="success-reg-name" style="color: var(--text-primary); font-family: var(--font-body);">Shop</strong>
+        </div>
+        <div style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
+          <span>Login ID:</span> <strong id="success-reg-id" style="color: var(--accent-color); font-size: 1.1rem;">SHOP-100</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; padding-top: 8px;">
+          <span>Login Password:</span> <strong id="success-reg-pass" style="color: var(--success-color); font-size: 1.1rem;">pass123</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px;">
+          <span>Monitor Password:</span> <strong id="success-reg-monitor-pass" style="color: var(--warning-color); font-size: 1.1rem;">mon123</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button class="primary-success-btn" id="close-reg-success-btn" style="background: var(--accent-color); width: 100%;">Complete Onboarding</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- --- PRODUCT DETAIL MODAL --- -->
+  <dialog id="product-detail-modal" class="modal">
+    <div class="modal-content glass-card">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close details">
+        <i data-lucide="x"></i>
+      </button>
+      
+      <!-- Info Column -->
+      <div class="modal-details" id="modal-details-container">
+        <!-- Dynamic loading of product specs -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- --- CUSTOMER PROFILE MODAL --- -->
+  <dialog id="customer-profile-modal" class="modal">
+    <div class="modal-content glass-card" style="max-width: 450px; padding: 30px; display: block;">
+      <button class="modal-close" onclick="document.getElementById('customer-profile-modal').classList.remove('active')" aria-label="Close profile" style="position: absolute; right: 16px; top: 16px; background: none; border: none; color: var(--text-muted); cursor: pointer;">
+        <i data-lucide="x"></i>
+      </button>
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-color), #ec4899); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+          <i data-lucide="user" style="width:40px; height:40px;"></i>
+        </div>
+        <h3 id="profile-name-display" style="font-size: 1.5rem; font-family: var(--font-heading); margin-bottom: 4px;">User Name</h3>
+        <p id="profile-phone-display" style="color: var(--text-secondary); font-size: 0.95rem;">+91 00000 00000</p>
+      </div>
+      
+      <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 16px;">
+        <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Delivery Information</h4>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <i data-lucide="home" style="width: 18px; height: 18px; color: var(--text-secondary); margin-top: 2px;"></i>
+            <div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2px;">Address</p>
+              <p id="profile-address-display" style="font-size: 0.95rem; color: var(--text-primary); font-weight: 500;">House No, Street</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <i data-lucide="map-pin" style="width: 18px; height: 18px; color: var(--text-secondary); margin-top: 2px;"></i>
+            <div>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2px;">Location</p>
+              <p id="profile-location-display" style="font-size: 0.95rem; color: var(--text-primary); font-weight: 500;">City, State - PIN</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="back-btn" onclick="document.getElementById('customer-profile-modal').classList.remove('active')" style="width: 100%; margin-top: 24px; padding: 12px; justify-content: center;">Close Profile</button>
+    </div>
+  </dialog>
+
+  <!-- --- CUSTOMER TRACK ORDER MODAL --- -->
+  <dialog id="customer-track-order-modal" class="modal">
+    <div class="modal-content glass-card" style="max-width: 450px; padding: 30px; text-align: center; display: block;">
+      <button class="modal-close" id="close-track-modal-x" aria-label="Close track order" style="position: absolute; right: 16px; top: 16px; background: none; border: none; color: var(--text-muted); cursor: pointer;">
+        <i data-lucide="x"></i>
+      </button>
+      <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(59, 130, 246, 0.15); color: #3b82f6; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+        <i data-lucide="navigation" style="width:40px; height:40px;"></i>
+      </div>
+      <h3 style="font-size: 1.4rem; font-family: var(--font-heading); margin-bottom: 10px;">Track Store Order</h3>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Enter your Order ID (e.g., #DL-1092) to see your real-time delivery courier status.</p>
+      
+      <form id="track-order-form" style="text-align: left; display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
+        <div class="form-group">
+          <input type="text" id="track-order-id-input" placeholder="e.g. #DL-1092" required style="width:100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none; font-size: 1.1rem; text-align: center; font-weight: bold; font-family: monospace;">
+        </div>
+        <button type="submit" class="next-btn" style="width: 100%; padding: 12px;">Track Status</button>
+      </form>
+      
+      <!-- Tracking Result Section -->
+      <div id="track-result-container" style="display: none; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 20px; text-align: left; margin-top: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Tracking Status</span>
+          <strong id="track-order-ref" style="font-family: monospace; color: var(--accent-color);">#DL-1092</strong>
+        </div>
+        
+        <!-- Status Indicator Card -->
+        <div id="track-status-box" style="padding: 12px 16px; border-radius: 8px; font-weight: bold; font-size: 0.95rem; margin-bottom: 16px; text-align: center;">
+          Pending Dispatch
+        </div>
+
+        <!-- Tracking Stepper -->
+        <div style="display: flex; flex-direction: column; gap: 16px; position: relative; padding-left: 24px; border-left: 2px solid var(--border-color);" id="track-stepper">
+          <!-- Step 1: Placed -->
+          <div style="position: relative;" id="track-step-placed">
+            <span style="position: absolute; left: -31px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--border-color); border: 2px solid var(--bg-secondary);" class="stepper-dot"></span>
+            <strong style="display: block; font-size: 0.85rem;" id="track-step-placed-title">Order Placed</strong>
+            <small style="color: var(--text-secondary); font-size: 0.75rem;" id="track-step-placed-desc">Waiting for merchant confirmation.</small>
+          </div>
+          <!-- Step 2: Dispatched -->
+          <div style="position: relative;" id="track-step-dispatched">
+            <span style="position: absolute; left: -31px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--border-color); border: 2px solid var(--bg-secondary);" class="stepper-dot"></span>
+            <strong style="display: block; font-size: 0.85rem;" id="track-step-dispatched-title">Out for Delivery</strong>
+            <small style="color: var(--text-secondary); font-size: 0.75rem;" id="track-step-dispatched-desc">Rider has picked up your courier.</small>
+          </div>
+          <!-- Step 3: Delivered -->
+          <div style="position: relative;" id="track-step-delivered">
+            <span style="position: absolute; left: -31px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--border-color); border: 2px solid var(--bg-secondary);" class="stepper-dot"></span>
+            <strong style="display: block; font-size: 0.85rem;" id="track-step-delivered-title">Delivered</strong>
+            <small style="color: var(--text-secondary); font-size: 0.75rem;" id="track-step-delivered-desc">Courier arrived safely.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- --- ENTER DISTANCE MODAL --- -->
+  <dialog id="enter-distance-modal" class="modal">
+    <div class="modal-content glass-card" style="max-width: 400px; padding: 30px; text-align: center; display: block;">
+      <div style="width: 70px; height: 70px; border-radius: 50%; background: var(--accent-light); color: var(--accent-color); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+        <i data-lucide="map-pin" style="width:40px; height:40px;"></i>
+      </div>
+      <h3 style="font-size: 1.4rem; font-family: var(--font-heading); margin-bottom: 10px;">Complete Delivery</h3>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Enter the actual kilometers covered by the delivery boy to generate the final bill for <strong id="dist-modal-order-id">#DL-1000</strong>.</p>
+      
+      <form id="enter-distance-form" style="text-align: left; display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+        <div class="form-group">
+          <label for="actual-distance-input" style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;">Actual Distance Covered (km)</label>
+          <input type="number" id="actual-distance-input" min="0.1" step="0.1" placeholder="e.g. 4.5" required style="width:100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary); outline: none; font-size: 1.1rem; text-align: center; font-weight: bold;">
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -8px;">
+          <input type="checkbox" id="free-delivery-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--success-color);">
+          <label for="free-delivery-checkbox" style="font-size: 0.9rem; font-weight: 600; color: var(--success-color); cursor: pointer;">Apply Free Delivery</label>
+        </div>
+        <button type="submit" class="next-btn" style="width: 100%; padding: 12px;">Generate Final Bill</button>
+      </form>
+      
+      <button class="back-btn" id="close-dist-modal-btn" style="width: 100%;">Cancel</button>
+    </div>
+  </dialog>
+
+  <!-- --- CUSTOMER A4 BILL MODAL --- -->
+  <!-- CATEGORY SELECTION MODAL -->
+  <dialog id="category-selection-modal" class="modal">
+    <div class="glass-card" style="max-width: 500px; width: 100%; padding: 30px; position: relative;">
+      <button class="modal-close" onclick="document.getElementById('category-selection-modal').classList.remove('active')">
+        <i data-lucide="x"></i>
+      </button>
+      <h2 style="margin-bottom: 24px; text-align: center;">Select a Category</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+        <div class="dash-cat-card" onclick="setCategoryFilter('Food'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="utensils" style="width:32px;height:32px;color:#f43f5e;"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Food</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Grocery'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="shopping-bag" style="width:32px;height:32px;color:var(--success-color);"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Grocery</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Restaurant'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="chef-hat" style="width:32px;height:32px;color:var(--warning-color);"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Restaurant</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Student need'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="book-open" style="width:32px;height:32px;color:#0ea5e9;"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Student need</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Vegetable shop'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="carrot" style="width:32px;height:32px;color:#10b981;"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Vegetable shop</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Tiffen shop'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="coffee" style="width:32px;height:32px;color:#d97706;"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Tiffen shop</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Daily need'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="sun" style="width:32px;height:32px;color:#f59e0b;"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Daily need</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Electronics'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="monitor" style="width:32px;height:32px;color:var(--accent-color);"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Electronics</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter('Cloths'); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="shopping-bag" style="width:32px;height:32px;color:#ec4899;"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Cloths</span>
+        </div>
+        <div class="dash-cat-card" onclick="setCategoryFilter(''); document.getElementById('category-selection-modal').classList.remove('active')" style="cursor: pointer;">
+          <i data-lucide="layout-grid" style="width:32px;height:32px;color:var(--text-primary);"></i>
+          <span style="font-size: 0.85rem; font-weight: 600; text-align: center;">Clear Filter</span>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- CUSTOMER NOTIFICATIONS MODAL -->
+  <dialog id="customer-notifications-modal" class="modal">
+    <div class="glass-card" style="max-width: 500px; width: 100%; padding: 30px; position: relative;">
+      <button class="modal-close" onclick="document.getElementById('customer-notifications-modal').classList.remove('active')">
+        <i data-lucide="x"></i>
+      </button>
+      <h2 style="margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+        <i data-lucide="bell" style="color: #6C4DFF;"></i> Notifications & Offers
+      </h2>
+      <div id="customer-notifications-list" style="display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto;">
+        <!-- JS injected -->
+      </div>
+    </div>
+  </dialog>
+  <!-- Discount Prompt Modal -->
+  <dialog id="discount-prompt-modal" class="modal">
+    <div class="modal-content" style="max-width: 400px; padding: 24px; text-align: center;">
+      <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+        <i data-lucide="tag" style="width: 48px; height: 48px; color: var(--success-color);"></i>
+      </div>
+      <h2 style="margin-bottom: 8px;">Active Offer Found!</h2>
+      <p id="discount-offer-title" style="font-weight: bold; margin-bottom: 4px; color: var(--primary-color);"></p>
+      <p id="discount-offer-details" style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;"></p>
+      <div class="form-group" style="text-align: left;">
+        <label style="font-weight: 500;">Enter Discount Amount (₹)</label>
+        <input type="number" id="discount-prompt-input" value="0" min="0" style="width: 100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 1.1rem; margin-top: 8px; color: var(--text-primary);">
+      </div>
+      <div style="display: flex; gap: 12px; margin-top: 24px;">
+        <button onclick="closeDiscountPrompt()" style="flex: 1; padding: 12px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 8px; font-weight: bold; cursor: pointer; color: var(--text-primary);">Skip Offer</button>
+        <button onclick="applyDiscountPrompt()" style="flex: 1; padding: 12px; background: var(--success-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Apply Discount</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="customer-invoice-modal" class="modal">
+    <div class="modal-content" style="max-width: 600px; padding: 40px; background: white; color: black; border-radius: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; border-bottom: 2px solid #ddd; padding-bottom: 20px;">
+        <div style="flex: 1;"></div>
+        <div style="text-align: center; flex: 2;">
+          <img src="/aura_logo.png?v=2" alt="AURA Dispatch" style="height: 60px; margin-bottom: 10px;">
+          <h2 style="margin: 0; color: #333; font-family: monospace; font-size: 1.5rem;">TAX INVOICE</h2>
+          <div style="color: #666; font-size: 0.9rem; margin-top: 5px;">Aura Online Shopping System</div>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: flex-end;">
+          <button onclick="window.print()" class="no-print" style="padding: 8px 16px; background: var(--primary-color); color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; height: fit-content;"><i data-lucide="printer" style="width:16px;height:16px;"></i> Print Bill</button>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: space-between; margin-bottom: 30px; font-size: 0.9rem;">
+        <div>
+          <div style="color: #666; margin-bottom: 4px;">Billed To:</div>
+          <strong id="cust-bill-name" style="font-size: 1.1rem;">-</strong><br>
+          <span id="cust-bill-phone">-</span>
+        </div>
+        <div style="text-align: right;">
+          <div style="color: #666; margin-bottom: 4px;">Invoice Details:</div>
+          <strong>Order ID:</strong> <span id="cust-bill-id">-</span><br>
+          <strong>Date:</strong> <span id="cust-bill-date">-</span><br>
+          <strong>Shop:</strong> <span id="cust-bill-shop">-</span>
+        </div>
+      </div>
+      
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #f8f9fa; border-bottom: 2px solid #ddd;">
+            <th style="padding: 12px 8px; text-align: left;">Item Description</th>
+            <th style="padding: 12px 8px; text-align: right;">Price</th>
+          </tr>
+        </thead>
+        <tbody id="cust-bill-items" style="border-bottom: 2px solid #ddd;">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+      
+      <div style="display: flex; justify-content: flex-end; font-size: 0.95rem; margin-bottom: 40px;">
+        <div style="width: 250px;">
+          <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+            <span>Subtotal:</span>
+            <span id="cust-bill-subtotal">-</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 6px 0; color: var(--text-secondary);">
+            <span>Delivery Fee</span>
+            <span id="cust-bill-delivery">+₹30.00</span>
+          </div>
+          <div id="cust-bill-freedelivery-row" style="display: none; justify-content: space-between; padding: 6px 0; color: var(--success-color);">
+            <span>Free Delivery Applied</span>
+            <span id="cust-bill-freedelivery">-₹30.00</span>
+          </div>
+          <div id="cust-bill-discount-row" style="display: none; justify-content: space-between; padding: 6px 0; color: var(--success-color);">
+            <span>Discount Applied:</span>
+            <span id="cust-bill-discount">-</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 12px 0; border-top: 2px solid #ddd; font-weight: bold; font-size: 1.2rem; margin-top: 8px;">
+            <span>Grand Total:</span>
+            <span id="cust-bill-total">-</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; color: #888; font-size: 0.85rem; border-top: 1px solid #eee; padding-top: 20px;">
+        Thank you for shopping with AURA Dispatch!
+      </div>
+      
+      <div class="no-print" style="margin-top: 30px; display: flex; gap: 16px;">
+        <button onclick="document.getElementById('customer-invoice-modal').close(); document.getElementById('customer-invoice-modal').classList.remove('active');" style="flex: 1; padding: 12px; background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 4px; font-weight: bold; cursor: pointer;">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- --- ORDER TRACKING MODAL --- -->
+  <dialog id="track-order-modal" class="modal">
+    <div class="modal-content glass-card" style="max-width: 500px; padding: 30px; text-align: center;">
+      <h3 style="margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <i data-lucide="map-pin" style="color: var(--primary-color);"></i> Track Order <span id="track-order-id" style="color: var(--text-muted); font-size: 1rem;"></span>
+      </h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 12px; text-align: left; position: relative; margin-bottom: 30px;">
+        
+        <div class="track-step" id="order-track-step-pending" style="display: flex; gap: 16px; align-items: center;">
+          <div class="track-dot" style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+          <div>
+            <div style="font-weight: bold; color: var(--text-primary);">Order Placed</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Awaiting courier assignment.</div>
+          </div>
+        </div>
+
+        <div style="padding-left: 10px; color: var(--border-color);">
+          <i data-lucide="arrow-down" style="width: 20px; height: 20px;"></i>
+        </div>
+        
+        <div class="track-step" id="order-track-step-dispatched" style="display: flex; gap: 16px; align-items: center;">
+          <div class="track-dot" style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-tertiary); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+          <div>
+            <div style="font-weight: bold; color: var(--text-primary);">Dispatched</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);" id="order-track-courier-details">Courier is on the way.</div>
+          </div>
+        </div>
+
+        <div style="padding-left: 10px; color: var(--border-color);">
+          <i data-lucide="arrow-down" style="width: 20px; height: 20px;"></i>
+        </div>
+        
+        <div class="track-step" id="order-track-step-delivered" style="display: flex; gap: 16px; align-items: center;">
+          <div class="track-dot" style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-tertiary); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+          <div>
+            <div style="font-weight: bold; color: var(--text-primary);">Delivered</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Package has arrived!</div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="order-track-message-container" style="display: none; padding: 15px; background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--error-color); margin-bottom: 20px; text-align: left; border-radius: 4px;">
+        <div style="font-weight: bold; color: var(--error-color); margin-bottom: 4px;"><i data-lucide="alert-circle" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>Agency Update</div>
+        <div id="order-track-message" style="font-size: 0.85rem; color: var(--text-primary);"></div>
+      </div>
+      
+      <button class="back-btn" onclick="document.getElementById('track-order-modal').close(); document.getElementById('track-order-modal').classList.remove('active');" style="width: 100%;">Close Tracker</button>
+    </div>
+  </dialog>
+  <!-- --- DELIVERY INVOICE & SMS REPORT MODAL --- -->
+  <dialog id="delivery-invoice-modal" class="modal">
+    <div class="modal-content glass-card" style="max-width: 800px; padding: 30px; display: block;">
+      <h3 style="font-size: 1.5rem; font-family: var(--font-heading); margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+        <span><i data-lucide="receipt" style="vertical-align: middle; margin-right: 6px; color: var(--accent-color);"></i> Order Delivery Invoice & Statement</span>
+        <span id="invoice-order-id" style="font-size: 1.1rem; color: var(--text-muted); font-family: monospace;">#DL-1000</span>
+      </h3>
+      
+      <div class="invoice-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        
+        <!-- Left: Customer Final Bill -->
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 20px; box-shadow: var(--shadow-sm);">
+          <h4 style="font-size: 1.1rem; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; color: var(--accent-color);">
+            <i data-lucide="user" style="width:16px; height:16px; vertical-align:middle; margin-right:4px;"></i> Customer Final Bill
+          </h4>
+          <div style="font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px;">
+            <div><strong>Customer Name:</strong> <span id="inv-cust-name">-</span></div>
+            <div><strong>Contact Number:</strong> <span id="inv-cust-phone">-</span></div>
+            <div><strong>Store Name:</strong> <span id="inv-store-name">-</span></div>
+            <div><strong>Payment Method:</strong> <span id="inv-pay-method">Cash on Delivery (COD)</span></div>
+          </div>
+          
+          <div style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 12px 0; margin-bottom: 16px;">
+            <div style="font-weight: 600; font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; color: var(--text-muted);">Items Ordered</div>
+            <div id="inv-items-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; max-height: 120px; overflow-y: auto;">
+              <!-- Dynamic items -->
+            </div>
+          </div>
+
+          <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span>Items Subtotal:</span>
+              <span id="inv-subtotal">₹0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Delivery Fee (<span id="inv-distance">-</span> km):</span>
+              <span id="inv-delivery-fee">₹0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: var(--error-color);" id="inv-discount-row">
+              <span>Order Discount (<span id="inv-discount-percent">0</span>%):</span>
+              <span id="inv-discount-amount">-₹0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.05rem; border-top: 1px dashed var(--border-color); padding-top: 8px; margin-top: 4px; color: var(--text-primary);">
+              <span>Grand Total (COD):</span>
+              <span id="inv-grand-total">₹0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Agency Hub Bill & SMS Simulator -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- Agency Statement -->
+          <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); padding: 20px; flex-grow: 1;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 12px; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px; color: var(--success-color);">
+              <i data-lucide="building" style="width:16px; height:16px; vertical-align:middle; margin-right:4px;"></i> Agency Hub Statement
+            </h4>
+            <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; justify-content: space-between;">
+                <span>Total Collected (from Customer):</span>
+                <strong id="inv-agency-collected">₹0.00</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Distance Covered:</span>
+                <strong id="inv-agency-distance">- km</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Rider Payout (Delivery Fee):</span>
+                <strong id="inv-agency-rider-payout" style="color: var(--success-color);">₹0.00</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+                <span>Agency Platform Share (<span id="inv-commission-percent">20</span>% Commission):</span>
+                <strong id="inv-agency-commission">₹0.00</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--accent-color);">
+                <span>Net Store Payout:</span>
+                <strong id="inv-agency-store-payout">₹0.00</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- SMS Notification Simulator -->
+          <div style="background: #1e293b; border: 1px solid #334155; border-radius: var(--border-radius-md); padding: 16px; color: #e2e8f0; font-family: monospace; font-size: 0.8rem;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px; color: #38bdf8; font-weight: 600;">
+              <i data-lucide="smartphone" style="width:14px; height:14px;"></i>
+              <span>SMS NOTIFICATION (SIMULATED)</span>
+            </div>
+            <div style="background: #0f172a; border-radius: 6px; padding: 10px; border-left: 3px solid #38bdf8; white-space: pre-wrap;" id="inv-sms-body">
+              SMS Message Text...
+            </div>
+            <small style="color: #94a3b8; display: block; margin-top: 6px; font-style: italic;">Sent directly to customer's mobile number</small>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+        <button class="back-btn" id="print-invoice-btn" style="padding: 10px 20px;">
+          <i data-lucide="printer" style="width:16px; height:16px; margin-right:4px;"></i> Print Invoice
+        </button>
+        <button class="next-btn" id="close-invoice-btn" style="padding: 10px 20px;">Close Receipt</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- --- SHOPPING CART DRAWER (SLIDE IN) --- -->
+  <aside id="cart-drawer" class="cart-drawer">
+    <div class="cart-header">
+      <span class="cart-title">
+        <i data-lucide="shopping-bag" class="gradient-text"></i>
+        <span>Delivery Basket</span>
+      </span>
+      <button class="cart-close" id="cart-close-btn" aria-label="Close cart">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <!-- Scrollable Items List -->
+    <div class="cart-items" id="cart-items-container">
+      <!-- Dynamic list of items in cart -->
+    </div>
+
+    <!-- Summary Details -->
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Items Subtotal</span>
+        <span id="cart-subtotal">₹0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Delivery Dispatch Fee</span>
+        <span id="cart-tax">₹40.00</span>
+      </div>
+      <div class="summary-row total">
+        <span>Grand Total</span>
+        <span id="cart-total">₹0.00</span>
+      </div>
+      <button class="checkout-btn" id="cart-checkout-btn" style="margin-top: 16px;">
+        <i data-lucide="credit-card"></i>
+        <span>Proceed to Checkout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Application Logic -->
+  <!-- --- COURIER ASSIGNMENT MODAL --- -->
+  <dialog id="assign-courier-modal" class="modal">
+    <div class="modal-content glass-card" style="max-width: 400px; padding: 30px; text-align: center; display: block;">
+      <h3 style="font-size: 1.4rem; font-family: var(--font-heading); margin-bottom: 10px;">Assign Courier</h3>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">Enter the delivery boy's details.</p>
+      
+      <form id="assign-courier-form" style="text-align: left; display: flex; flex-direction: column; gap: 16px;">
+        <div class="form-group">
+          <label for="courier-name">Courier Name</label>
+          <input type="text" id="courier-name" required style="width:100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary);">
+        </div>
+        <div class="form-group">
+          <label for="courier-id">Courier ID</label>
+          <input type="text" id="courier-id" required style="width:100%; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: var(--border-radius-sm); color: var(--text-primary);">
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <button type="button" id="cancel-assign-btn" class="back-btn" style="flex: 1;">Cancel</button>
+          <button type="submit" class="next-btn" style="flex: 1;">Assign & Dispatch</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- PRINT CONTAINER -->
+  <div id="print-report-container" style="display: none; padding: 20px; font-family: sans-serif; color: #000; background: #fff;"></div>
+
+  <!-- PRINT STYLES -->
+  <style>
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #print-report-container, #print-report-container *,
+      #customer-invoice-modal, #customer-invoice-modal * {
+        visibility: visible;
+      }
+      #print-report-container, #customer-invoice-modal {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .no-print, .no-print * {
+        display: none !important;
+      }
+      .print-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      .print-table th, .print-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        font-size: 12px;
+      }
+      .print-table th {
+        background-color: #f2f2f2;
+      }
+    }
+  </style>
+  <!-- Thermal Receipt Modal -->
+  <div id="thermal-receipt-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000000; justify-content: center; align-items: flex-start; overflow-y: auto; padding: 40px 0;">
+    <div style="background: white; width: 315px; min-height: 800px; margin: auto; padding: 20px; font-family: 'Courier New', Courier, monospace; color: black; box-sizing: border-box; position: relative;" id="thermal-receipt-wrapper">
+      <div class="no-print" style="position: absolute; top: -40px; right: 0; display: flex; gap: 8px;">
+        <button onclick="document.getElementById('thermal-receipt-modal').style.display='none'; document.body.classList.remove('printing-thermal');" style="background: white; color: black; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: sans-serif;">Close</button>
+        <button onclick="window.print()" style="background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 6px; font-family: sans-serif;"><i data-lucide="printer" style="width:14px;height:14px;"></i> Print Receipt</button>
+      </div>
+      
+      <div id="thermal-receipt-content" class="thermal-print-area">
+        <!-- Content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=24"></script>
+</body>
+</html>
